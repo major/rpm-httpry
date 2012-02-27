@@ -1,7 +1,7 @@
 Summary: A specialized packet sniffer designed for displaying and logging HTTP traffic
 Name: httpry
 Version: 0.1.5
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2 and BSD
 URL: http://dumpsterventures.com/jason/httpry/
 Group: Applications/Internet
@@ -21,6 +21,7 @@ so that it can be easily adaptable to different applications.
 %setup -q
 
 %build
+sed -i 's/^CCFLAGS.*$/CCFLAGS = \$(RPM_OPT_FLAGS) \$(RPM_LD_FLAGS) -I\/usr\/include\/pcap -I\/usr\/local\/include\/pcap/' Makefile
 make %{?_smp_mflags}
 
 %install
@@ -40,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/httpry.1*
 
 %changelog
+* Mon Feb 27 2012 Major Hayden <major@mhtx.net> - 0.1.5-4
+- Adjusted Makefile compiler flags to match packaging guidelines.
+
 * Wed Aug 03 2011 Major Hayden <major@mhtx.net> - 0.1.5-3
 - Additional cleanup
 - Added man page
